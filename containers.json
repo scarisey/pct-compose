@@ -1,0 +1,90 @@
+{
+  "name":"test_template",
+  "templatesDir":"/var/lib/vz/template/cache",
+  "dns": [
+    "8.8.8.8",
+    "8.8.4.4",
+    "1.1.1.1"
+  ],
+  "network": {
+    "cidr": "192.168.1.0/24",
+    "gateway": "192.168.1.1"
+  },
+  "containers": [
+    {
+      "hostname": "host1",
+      "volumes": [
+        "data"
+      ],
+      "cores": 4,
+      "memory": 2048,
+      "services": [
+        "ssh1"
+      ],
+      "template": {
+        "type": "File",
+        "file": "/var/lib/vz/template/cache/foo.tar.xz"
+      }
+    },
+    {
+      "hostname": "host2",
+      "volumes": [
+        "data",
+        "config"
+      ],
+      "cores": 1,
+      "memory": 512,
+      "services": [
+        "ssh2",
+        "webhook"
+      ],
+      "template": {
+        "type": "Github",
+        "repo": "scarisey/my-proxmox",
+        "file": "bar.tar.xz",
+        "tag": "latest"
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "name": "data",
+      "hostPath": "/var/lib/vz/data",
+      "mountPath": "/data",
+      "uid": 1000,
+      "gid": 1000,
+      "perms": "022"
+    },
+    {
+      "name": "config",
+      "hostPath": "/var/lib/vz/config",
+      "mountPath": "/var/lib/config",
+      "uid": 180,
+      "gid": 180,
+      "perms": "764"
+    }
+  ],
+  "services": [
+    {
+      "name": "ssh1",
+      "nat": {
+        "localPort": 22,
+        "remotePort": 2022
+      }
+    },
+    {
+      "name": "ssh2",
+      "nat": {
+        "localPort": 22,
+        "remotePort": 3022
+      }
+    },
+    {
+      "name": "webhook",
+      "nat": {
+        "localPort": 8080,
+        "remotePort": 8080
+      }
+    }
+  ]
+}

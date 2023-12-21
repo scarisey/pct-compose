@@ -1,0 +1,9 @@
+.idea/
+githubToken.txt
+scratchpad.sh
+pct-compose
+.bsp/
+.scala-build/
+.direnv/
+target/
+project/target/
