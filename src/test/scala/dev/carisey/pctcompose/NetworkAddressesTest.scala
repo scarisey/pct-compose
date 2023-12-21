@@ -1,3 +1,4 @@
+package dev.carisey.pctcompose
 import org.scalatest.*
 import org.scalatest.flatspec.*
 import org.scalatest.matchers.*

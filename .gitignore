@@ -7,3 +7,7 @@ pct-compose
 .direnv/
 target/
 project/target/
+project/metals.sbt
+project/project/
+.bloop/
+

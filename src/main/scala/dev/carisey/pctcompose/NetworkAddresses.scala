@@ -1,3 +1,4 @@
+package dev.carisey.pctcompose
 import io.github.iltotore.iron.*
 import io.github.iltotore.iron.constraint.collection.*
 import scala.annotation.nowarn
