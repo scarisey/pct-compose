@@ -1,0 +1,8 @@
+= Manage Proxmox with declarative configuration
+
+== TODO
+
+ * do not redownload same artifact
+ * handle nginx template configuration with IP
+ * go PUBLIC with a youtube video review (why not ...)
+
