@@ -1,9 +1,7 @@
-= Manage Proxmox with declarative configuration
+= Manage Proxmox containers with declarative configuration
 
 == TODO
 
  * add true Version on files too
- * CI
- * README
- * go PUBLIC with a youtube video review (why not ...)
+ * exhaustive documentation
 
