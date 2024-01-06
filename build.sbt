@@ -1,6 +1,6 @@
 organization := "dev.carisey"
 homepage := Some(url("https://pct-compose.carisey.dev"))
-licenses += "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")
+licenses += "AGPL-3.0-or-later" -> url("https://www.gnu.org/licenses/agpl-3.0.fr.html#license-text")
 developers := List(
   Developer("scarisey", "Sylvain Carisey", "sylvain@carisey.dev", url("https://github.com/scarisey"))
 )
@@ -13,7 +13,6 @@ scmInfo := Some(
 )
 
 scalaVersion := "3.3.1"
-
 testFrameworks += new TestFramework("org.scalatest.tools.Framework")
 
 assembly / assemblyJarName := "pct-compose.jar"
