@@ -57,9 +57,9 @@ object PctCompose {
 
     val clean = Future.traverse(deployments.collect { case d: Deployed => d }) { deployment =>
       Future {
-        pprint.pprintln(s"Stop container ${deployment.id.toString()}")
+        println(s"Stop container ${deployment.id.toString()}")
         Try(OsCommand("pct", "stop", deployment.id.toString()).execute())
-        pprint.pprintln(s"Destroy container ${deployment.id.toString()}")
+        println(s"Destroy container ${deployment.id.toString()}")
         Try(OsCommand("pct", "destroy", deployment.id.toString(), "--destroy-unreferenced-disks", "--force", "--purge").execute())
       }
     }
@@ -79,14 +79,14 @@ object PctCompose {
       .tapEach { case (_, deployment) =>
         deployment.container.template match
           case template: Github =>
-            secret.fold(pprint.pprintln("No secret was given so downloading assets is skipped."))(
+            secret.fold(println("No secret was given so downloading assets is skipped."))(
               Assets.downloadAsset(template, _)
             )
           case _ => ()
       }
       .map { case (c, _) =>
         Future {
-          pprint.pprintln(s"Creating container ${c.id}")
+          println(s"Creating container ${c.id}")
           OsCommand.execute(c.toPctCreateArgs(scala.util.Random.nextLong()))
           OsCommand("pct", "start", c.id.toString()).execute()
         }
@@ -115,12 +115,12 @@ object PctCompose {
   }
 
   private def flushPrerouting(): Unit = {
-    pprint.pprintln("Flush prerouting")
+    println("Flush prerouting")
     OsCommand.iptables("-t", "nat", "--flush", "PREROUTING").execute()
   }
 
   private def updatePrerouting(containers: List[CreateContainerParams]): Unit = {
-    pprint.pprintln("Update prerouting")
+    println("Update prerouting")
     val iptables = Array("iptables")
     OsCommand.execute(containers.flatMap(_.toIpTablesArgs))
     OsCommand("iptables-save").execute()

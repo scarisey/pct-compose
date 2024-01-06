@@ -22,15 +22,14 @@ object Assets {
     val url = template.urlSuffix
     val file = template.file
     val localPath = template.localPath
-    pprint.pprintln(s"Get release for $file ...")
+    println(s"Get release for $file ...")
     val res = Try(requests.get(url = s"https://api.github.com/repos/${url}", auth = token).text())
       .map(readFromString[GithubRelease](_))
-      .map(_.tap(x => pprint.pprintln(x)))
       .map(
         _.filter(file)
           .map(asset => (localPath, asset))
           .tap {
-            case None => pprint.pprintln(s"$file cannot be found at $url")
+            case None => println(s"$file cannot be found at $url")
             case _    => ()
           }
       )
@@ -38,11 +37,11 @@ object Assets {
       .collect {
         case Some((localPath, release)) => {
           val tempPath = os.Path(s"${localPath}-${UUID.randomUUID().toString()}")
-          pprint.pprintln(s"Download ${release.name} into ${tempPath}")
+          println(s"Download ${release.name} into ${tempPath}")
           requests
             .get(url = release.url, auth = token, headers = Map("Accept" -> "application/octet-stream"))
             .writeBytesTo(os.write.outputStream(tempPath))
-          pprint.pprintln(s"Move ${tempPath} into ${localPath}")
+          println(s"Move ${tempPath} into ${localPath}")
           os.move.over(tempPath, os.Path(localPath.toString()))
         }
       }

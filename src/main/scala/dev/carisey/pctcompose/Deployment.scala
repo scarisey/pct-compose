@@ -56,7 +56,6 @@ object Deployment {
           .getOrElse("")
       )
       .map((id, tags) => id -> extractTags(tags))
-    pprint.pprintln(configTags)
     zipContainersWithTags(description, configTags)
   }
 
