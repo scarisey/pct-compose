@@ -1,3 +1,4 @@
+import sbtassembly.AssemblyPlugin.defaultShellScript
 organization := "dev.carisey"
 homepage := Some(url("https://pct-compose.carisey.dev"))
 licenses += "AGPL-3.0-or-later" -> url("https://www.gnu.org/licenses/agpl-3.0.fr.html#license-text")
@@ -15,7 +16,8 @@ scmInfo := Some(
 scalaVersion := "3.3.1"
 testFrameworks += new TestFramework("org.scalatest.tools.Framework")
 
-assembly / assemblyJarName := "pct-compose.jar"
+assemblyPrependShellScript := Some(defaultShellScript)
+assembly / assemblyJarName := "pct-compose"
 
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "mainargs" % "0.5.4",
