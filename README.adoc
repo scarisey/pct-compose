@@ -2,8 +2,8 @@
 
 == TODO
 
- * fix reference to container ID : order of declaration should not matter
  * add true Version on files too
- * handle nginx template configuration with IP
+ * CI
+ * README
  * go PUBLIC with a youtube video review (why not ...)
 
