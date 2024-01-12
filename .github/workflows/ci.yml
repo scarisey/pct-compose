@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: olafurpg/setup-scala@v11
+    - uses: olafurpg/setup-scala@v14
       with:
         java-version: openjdk@1.17
     - name: Package
