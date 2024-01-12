@@ -60,7 +60,6 @@ object Deployment {
     )
 
     val containerIds = OsCommand.execute(cmds)
-    println(containerIds)
 
     val configTags = containerIds
       .map(id =>
