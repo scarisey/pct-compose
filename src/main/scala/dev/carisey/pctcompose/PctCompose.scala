@@ -126,8 +126,11 @@ object PctCompose {
   }
 
   @main
-  def status(): Unit = {
-    val description: Description = readFromArray(os.read.bytes(os.pwd / "containers.json"))
+  def status(
+      @arg(short = 'd', name = "descriptor", doc = "Descriptor in JSON format")
+      descriptor: os.Path = os.pwd / "containers.json"
+  ): Unit = {
+    val description: Description = readFromArray(os.read.bytes(descriptor))
     pprint.pprintln(Deployment.getActualDeployment(description))
   }
 

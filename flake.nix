@@ -10,9 +10,9 @@
     with pkgs;
     {
       devShells.default = mkShell {
-        packages = [ pkgs.coursier pkgs.scalafmt pkgs.openjdk17 ];
+        packages = [ pkgs.coursier pkgs.scalafmt pkgs.graalvm-ce ];
         shellHook = ''
-          export JAVA_HOME=${pkgs.openjdk17}/lib/openjdk
+          export JAVA_HOME=${pkgs.graalvm-ce}/lib/openjdk
         '';
       };
     }

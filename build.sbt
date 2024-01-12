@@ -15,6 +15,13 @@ scmInfo := Some(
 
 scalaVersion := "3.3.1"
 testFrameworks += new TestFramework("org.scalatest.tools.Framework")
+enablePlugins(NativeImagePlugin)
+
+compile / mainClass := Some("dev.carisey.pctcompose.PctCompose")
+
+nativeImageOptions += s"-H:ReflectionConfigurationFiles=${target.value / "native-image-configs" / "reflect-config.json"}"
+nativeImageOptions += s"-H:ConfigurationFileDirectories=${target.value / "native-image-configs"}"
+nativeImageOptions += "-H:+JNI"
 
 assemblyPrependShellScript := Some(defaultShellScript)
 assembly / assemblyJarName := "pct-compose"
@@ -26,7 +33,6 @@ libraryDependencies ++= Seq(
   "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.25.0",
   "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.25.0",
   "io.github.iltotore" %% "iron" % "2.3.0",
-  "io.github.iltotore" %% "iron-scalacheck" % "2.3.0",
   "io.github.iltotore" %% "iron-jsoniter" % "2.3.0",
   "com.lihaoyi" %% "requests" % "0.8.0"
 )
