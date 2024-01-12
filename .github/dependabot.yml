@@ -1,0 +1,6 @@
+version: 2
+updates:
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+      - cron: "0 1 * * 5" # At 01:00 on Friday.
