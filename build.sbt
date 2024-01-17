@@ -22,6 +22,9 @@ compile / mainClass := Some("dev.carisey.pctcompose.PctCompose")
 nativeImageOptions += s"-H:ReflectionConfigurationFiles=${target.value / "native-image-configs" / "reflect-config.json"}"
 nativeImageOptions += s"-H:ConfigurationFileDirectories=${target.value / "native-image-configs"}"
 nativeImageOptions += "-H:+JNI"
+nativeImageOptions += "--no-fallback"
+nativeImageVersion := "21.0.1"
+nativeImageJvm := "graalvm-community"
 
 assemblyPrependShellScript := Some(defaultShellScript)
 assembly / assemblyJarName := "pct-compose"

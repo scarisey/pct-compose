@@ -1,18 +1,17 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = { self, nixpkgs, flake-utils }: flake-utils.lib.eachDefaultSystem (system:
     let
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs { inherit system; };
     in
-    with pkgs;
     {
-      devShells.default = mkShell {
-        packages = [ pkgs.coursier pkgs.scalafmt pkgs.graalvm-ce ];
+      devShells.default = pkgs.mkShell {
+        packages = with pkgs; [ sbt scalafmt graalvmCEPackages.graalvm-ce-musl ];
         shellHook = ''
-          export JAVA_HOME=${pkgs.graalvm-ce}/lib/openjdk
+          export JAVA_HOME=${pkgs.graalvmCEPackages.graalvm-ce-musl}
         '';
       };
     }
