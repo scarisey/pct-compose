@@ -1,0 +1,144 @@
+= Deployment descriptor of LXC containers
+
+== Sections
+
+=== Name
+
+The name of the descriptor that you will find as a tag in all its LXC containers.
+
+=== templatesDir
+
+The directory were LXC templates can be found when you declare a container template as a local file.
+
+=== dns
+
+Default dns that will be filled by the pct command at the creation of LXC containers.
+
+=== network
+
+You should define here the network were your LXC containers will live. The IP of an LXC container is computed from this definition.
+
+.example
+[%collapsible]
+====
+[source, json]
+----
+{
+    "cidr": "192.168.1.0/24", 
+    "gateway": "192.168.1.1"
+}
+----
+====
+
+=== volumes
+
+Volumes are identified by their `name` attribute. They are only used to bind mount a host directory into a container directory.
+If the directory on the host does not exist, it will be created. The permissions mask and owner definition is always applied on a `pct-compose update` command.
+
+.example
+[%collapsible]
+====
+[source, json]
+----
+{
+  "name": "data",
+  "hostPath": "/var/lib/vz/data",
+  "mountPath": "/data",
+  "uid": 1000,
+  "gid": 1000,
+  "perms": "022"
+}
+----
+====
+
+=== services
+
+For now, a service is just a NAT declaration. The `name` field identifies a service that can be used to expose a container port.
+
+.example
+[%collapsible]
+====
+[source, json]
+----
+{
+  "name": "ssh1",
+  "nat": {
+    "localPort": 22,
+    "remotePort": 2022
+  }
+}
+----
+====
+
+=== containers
+
+A container declaration have: 
+
+ * some hardware chacteristics (Cores, Ram in MB, VM disk size in GB)
+ * no swap
+ * volumes references
+ * services
+ * an LXC template definition: 
+ ** of type local file or Github
+ ** a path to the local template file (relative to templatesDir)
+ ** or a reference to a Github asset
+
+.example with LXC template from Github
+[%collapsible]
+====
+[source, json]
+----
+{
+  "hostname": "host2",
+  "volumes": [
+    "data",
+    "config"
+  ],
+  "cores": 1,
+  "memory": 512,
+  "diskSize": 24,
+  "services": [
+    "ssh2",
+    "webhook"
+  ],
+  "template": {
+    "type": "Github",
+    "repo": "scarisey/my-proxmox",
+    "file": "bar.tar.xz",
+    "tag": "latest"
+  }
+}
+----
+====
+
+.example with LXC template from local file
+[%collapsible]
+====
+[source, json]
+----
+{
+  "hostname": "host1",
+  "volumes": [
+    "data"
+  ],
+  "cores": 4,
+  "memory": 2048,
+  "diskSize": 8,
+  "services": [
+    "ssh1"
+  ],
+  "template": {
+    "type": "File",
+    "file": "/var/lib/vz/template/cache/foo.tar.xz"
+  }
+}
+----
+====
+
+== Full example
+
+.Example of a descriptor file `containers.json`
+[source, json]
+----
+include::example$containers.json[]
+----

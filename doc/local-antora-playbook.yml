@@ -1,0 +1,13 @@
+site:
+  title: pct-compose - Local
+  url: https://scarisey.github.io/pct-compose
+  start_page: pct-compose::index.adoc
+content:
+  sources: 
+  - url: ./..
+    branches: HEAD
+    start_paths: doc
+ui: 
+  bundle:
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
+    snapshot: true

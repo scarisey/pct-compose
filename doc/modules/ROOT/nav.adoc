@@ -1,0 +1,3 @@
+* xref:index.adoc[Home]
+* xref:updateWorkflow.adoc[What pct-compose does exactly ?]
+* xref:descriptor.adoc[LXC container deployment descriptor]

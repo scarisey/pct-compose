@@ -44,7 +44,7 @@ object PctCompose {
   }
   given descriptionCodec: JsonValueCodec[Description] = JsonCodecMaker.make
 
-  @main
+  @main(doc = "Show the interpretation of the JSON descriptor.")
   def parse(
       @arg(short = 'd', name = "descriptor", doc = "Descriptor in JSON format")
       descriptor: os.Path = os.pwd / "containers.json"
@@ -53,7 +53,7 @@ object PctCompose {
     pprint.pprintln(description)
   }
 
-  @main
+  @main(doc = "Update all the LXC containers described in the JSON descriptor.")
   def update(
       @arg(short = 'd', name = "descriptor", doc = "Descriptor in JSON format")
       descriptor: os.Path = os.pwd / "containers.json",
@@ -115,7 +115,7 @@ object PctCompose {
 
   }
 
-  @main
+  @main(doc = "Flush and reaaply the firewall rules computed from the JSON descriptor.")
   def restoreFw(
       @arg(short = 'd', name = "descriptor", doc = "Descriptor in JSON format")
       descriptor: os.Path = os.pwd / "containers.json"
@@ -125,7 +125,7 @@ object PctCompose {
     updatePrerouting(description.createContainerParams())
   }
 
-  @main
+  @main(doc = "Show the status of LXC containers.")
   def status(
       @arg(short = 'd', name = "descriptor", doc = "Descriptor in JSON format")
       descriptor: os.Path = os.pwd / "containers.json"

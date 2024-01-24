@@ -19,7 +19,7 @@
     {
       devShells.default = pkgs.mkShell {
         LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-        packages = with pkgs; [ sbt scalafmt graalvmCEPackages.graalvm-ce-musl ];
+        packages = with pkgs; [ sbt scalafmt graalvmCEPackages.graalvm-ce-musl antora ];
         shellHook = ''
           export JAVA_HOME=${pkgs.graalvmCEPackages.graalvm-ce-musl}
           export NATIVE_IMAGE_INSTALLED=true

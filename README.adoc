@@ -1,7 +1,4 @@
 = Manage Proxmox containers with declarative configuration
 
-== TODO
-
- * add true Version on files too
- * exhaustive documentation
+https://scarisey.github.io/pct-compose[Guide here]
 
