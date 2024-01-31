@@ -4,7 +4,7 @@ site:
   start_page: pct-compose::index.adoc
 content:
   sources: 
-    - url: https://github.com/scarisey/pct-compose
+  - url: https://github.com/scarisey/pct-compose
     start_paths: doc
 ui: 
   bundle:
