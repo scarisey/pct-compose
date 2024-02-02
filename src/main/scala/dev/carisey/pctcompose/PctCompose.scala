@@ -147,7 +147,7 @@ object PctCompose {
   }
 
   private def makeDirs(description: Description): Unit = {
-    pprint.pprintln(description.mkDirs())
+    description.mkDirs().foreach(cmd => pprint.pprintln(cmd.line.mkString(" ")))
     OsCommand.execute(description.mkDirs())
   }
 
