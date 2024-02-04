@@ -2,8 +2,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    scarisey-dotfiles.url = "github:scarisey/nixos-dotfiles";
   };
-  outputs = { self, nixpkgs, flake-utils }: flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, flake-utils, scarisey-dotfiles }: flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs {
         inherit system;
@@ -12,6 +13,7 @@
             jdk = final.graalvmCEPackages.graalvm-ce-musl;
             jre = final.graalvmCEPackages.graalvm-ce-musl;
           })
+          scarisey-dotfiles.overlays.additions
         ];
       };
     in

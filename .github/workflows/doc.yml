@@ -31,7 +31,9 @@ jobs:
       with:
         node-version: '18'
     - name: Install Antora
-      run: npm i antora
+      run: |
+        npm i antora
+        npm i -D @sntke/antora-mermaid-extension
     - name: Generate Site
       run: npx antora doc/antora-playbook.yml
     - name: Upload Artifacts
