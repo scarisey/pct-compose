@@ -11,13 +11,12 @@ So this tool should be maintained as long as I use it, and would not have too mu
 == Requirements
 
  * At least one Proxmox node
- * JDK 17 (any help for a native version is welcomed)
 
 == Installation
 
 [source, bash]
 ----
-sudo wget -O /usr/local/bin/pct-compose https://github.com/scarisey/pct-compose/releases/download/0.3.1/pct-compose 
+sudo wget -O /usr/local/bin/pct-compose https://github.com/scarisey/pct-compose/releases/download/0.4.0/pct-compose 
 sudo chmod a+x /usr/local/bin/pct-compose
 ----
 

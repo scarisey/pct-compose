@@ -1,0 +1,82 @@
+[
+{
+  "name":"[Lfansi.Attr;"
+},
+{
+  "name":"[Lfansi.Category;"
+},
+{
+  "name":"[Lfansi.Str;"
+},
+{
+  "name":"[Ljava.lang.String;"
+},
+{
+  "name":"[Lscala.Tuple2;"
+},
+{
+  "name":"[[Ljava.lang.Object;"
+},
+{
+  "name":"dev.carisey.pctcompose.CreateContainerParams",
+  "fields":[{"name":"toIpTablesArgs$lzy1"}]
+},
+{
+  "name":"dev.carisey.pctcompose.Network",
+  "fields":[{"name":"cidrNotation$lzy1"}]
+},
+{
+  "name":"dev.carisey.pctcompose.PctCompose$",
+  "fields":[{"name":"descriptionCodec$lzy1"}]
+},
+{
+  "name":"fansi.Category",
+  "fields":[{"name":"0bitmap$2"}]
+},
+{
+  "name":"fansi.Str",
+  "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"geny.ByteData$Chunks",
+  "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"java.lang.ClassValue"
+},
+{
+  "name":"java.lang.invoke.VarHandle",
+  "methods":[{"name":"releaseFence","parameterTypes":[] }]
+},
+{
+  "name":"java.util.concurrent.ForkJoinTask",
+  "fields":[{"name":"aux"}, {"name":"status"}]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicReference",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"jdk.internal.misc.Unsafe"
+},
+{
+  "name":"os.Path$",
+  "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"pprint.PPrinter",
+  "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"pprint.Result",
+  "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"pprint.Truncated",
+  "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"sun.misc.Unsafe",
+  "fields":[{"name":"theUnsafe"}]
+}
+]

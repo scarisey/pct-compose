@@ -7,6 +7,7 @@ content:
   - url: https://github.com/scarisey/pct-compose
     start_paths: doc
 ui: 
+  supplemental_files: ./supplemental-ui
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true

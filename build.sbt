@@ -19,8 +19,8 @@ enablePlugins(NativeImagePlugin)
 
 compile / mainClass := Some("dev.carisey.pctcompose.PctCompose")
 
-nativeImageOptions += s"-H:ReflectionConfigurationFiles=${target.value / "native-image-configs" / "reflect-config.json"}"
-nativeImageOptions += s"-H:ConfigurationFileDirectories=${target.value / "native-image-configs"}"
+nativeImageOptions += s"-H:ReflectionConfigurationFiles=${baseDirectory.value / "build-native" / "native-image-configs" / "reflect-config.json"}"
+nativeImageOptions += s"-H:ConfigurationFileDirectories=${baseDirectory.value / "build-native" / "native-image-configs"}"
 nativeImageOptions += "-H:+JNI"
 nativeImageOptions += "--no-fallback"
 nativeImageVersion := "21.0.1"
