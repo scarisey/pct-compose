@@ -37,8 +37,10 @@ libraryDependencies ++= Seq(
   "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.25.0",
   "io.github.iltotore" %% "iron" % "2.3.0",
   "io.github.iltotore" %% "iron-jsoniter" % "2.3.0",
-  "com.lihaoyi" %% "requests" % "0.8.0"
-)
+  "com.lihaoyi" %% "requests" % "0.8.0",
+  "com.lihaoyi" %% "fastparse" % "3.0.2",
+  "com.softwaremill.magnolia1_3" %% "magnolia" % "1.3.4"
+) ++ List("cats-core", "cats-kernel").map(dep => "org.typelevel" %% dep % "2.10.0")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.17" % Test,

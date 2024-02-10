@@ -19,7 +19,9 @@ package dev.carisey.pctcompose
 
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import com.github.plokhotnyuk.jsoniter_scala.macros.*
-import dev.carisey.pctcompose.LxcTemplate.Github
+import dev.carisey.pctcompose.LxcTemplate.{File, Github}
+import dev.carisey.pctcompose.projections.VariableEncoder.*
+import dev.carisey.pctcompose.projections.{ParseAndEvaluate, VariableEncoder}
 import io.github.iltotore.iron.*
 import io.github.iltotore.iron.constraint.all.*
 import io.github.iltotore.iron.constraint.collection.ForAll
@@ -28,14 +30,12 @@ import io.github.iltotore.iron.jsoniter.given
 import mainargs.*
 import requests.RequestAuth.Bearer
 
-import java.util.UUID
+import java.nio.file.*
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.Duration
 import scala.util.Try
 import scala.util.chaining.*
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import dev.carisey.pctcompose.LxcTemplate.File
 
 object PctCompose {
   implicit object PathRead extends TokensReader.Simple[os.Path] {
@@ -53,6 +53,38 @@ object PctCompose {
     pprint.pprintln(description)
   }
 
+  @main(doc = "Interpolate descriptor variables.")
+  def project(
+      @arg(short = 'd', name = "descriptor", doc = "Descriptor in JSON format")
+      descriptor: os.Path = os.pwd / "containers.json",
+      @arg(short = 'h', name = "hostname", doc = "Update only container with given hostname")
+      containerHostname: Option[String],
+      @arg(short = 's', name = "show-variables", doc = "Show all variables")
+      showVariables: Boolean = false,
+      @arg(short = 'r', name = "dry-run", doc = "Print the resulting projection without writing it.")
+      dryRun: Boolean = false
+  ): Unit = {
+    val description: Description = readFromArray(os.read.bytes(descriptor))
+    val projections = description.projectedVars().filter(p => containerHostname.forall(_ == p.hostname))
+
+    if (showVariables) {
+      pprint.pprintln(projections)
+    }
+    if(dryRun) {
+      pprint.pprintln(
+        description.projections.map(_.template).map(file => ParseAndEvaluate(file, projections))
+      )
+    }else{
+      description.projections.map{projection=>
+        val evaluated = ParseAndEvaluate(projection.template,projections)
+        val pathToFile:Path = java.nio.file.Paths.get(projection.target)
+        pathToFile.toFile.getParentFile.mkdirs()
+        val output = Files.createFile(pathToFile)
+        Files.writeString(output,evaluated)
+      }
+    }
+  }
+
   @main(doc = "Update all the LXC containers described in the JSON descriptor.")
   def update(
       @arg(short = 'd', name = "descriptor", doc = "Descriptor in JSON format")
@@ -63,7 +95,7 @@ object PctCompose {
       secret: Option[os.Path]
   ): Unit = {
     implicit val description: Description = readFromArray(os.read.bytes(descriptor))
-    val containers = description.createContainerParams()
+    val containers = description.projectedVars()
 
     makeDirs(description)
     flushPrerouting()
@@ -122,7 +154,7 @@ object PctCompose {
   ): Unit = {
     val description: Description = readFromArray(os.read.bytes(descriptor))
     flushPrerouting()
-    updatePrerouting(description.createContainerParams())
+    updatePrerouting(description.projectedVars())
   }
 
   @main(doc = "Show the status of LXC containers.")
@@ -139,7 +171,7 @@ object PctCompose {
     OsCommand.iptables("-t", "nat", "--flush", "PREROUTING").execute()
   }
 
-  private def updatePrerouting(containers: List[CreateContainerParams]): Unit = {
+  private def updatePrerouting(containers: List[Projected]): Unit = {
     println("Update prerouting")
     val iptables = Array("iptables")
     OsCommand.execute(containers.flatMap(_.toIpTablesArgs))

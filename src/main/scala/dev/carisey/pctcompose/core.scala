@@ -23,8 +23,6 @@ import io.github.iltotore.iron.*
 import io.github.iltotore.iron.constraint.all.*
 import io.github.iltotore.iron.constraint.numeric.Greater
 
-import java.util.UUID
-
 type OwnerId = Int :| Interval.Closed[0, 65535]
 type IP = String :| Match["""^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"""]
 type CIDR = String :|
@@ -39,6 +37,7 @@ type ServiceName = String :| LettersLowerCase
 type VolumeName = String :| LettersLowerCase
 type Permissions = String :| Match["""^(0?[0-7]{2}|[0-7]{3})$"""]
 type Path = String :| Match["""^\/{1}.*$"""]
+type RelativePath = String :| Match["""^\..+[^\/]$"""]
 type TemplateName = String :| Match["""^\w+$"""]
 type Version = String :| Match["""^[a-zA-Z0-9_\.]+$"""]
 sealed trait LxcTemplate {
@@ -76,6 +75,10 @@ final case class Container(
 final case class Network(cidr: CIDR, gateway: IP) {
   lazy val cidrNotation: String = s"/${cidr.split('/')(1)}"
 }
+final case class Projection(
+    template: RelativePath,
+    target: Path
+)
 final case class Description(
     name: TemplateName,
     containers: List[Container],
@@ -83,14 +86,15 @@ final case class Description(
     services: Set[Service],
     dns: Set[IP],
     templatesDir: Path,
-    network: Network
+    network: Network,
+    projections: List[Projection] = List.empty
 ) {
   implicit val self: Description = this
-  def createContainerParams(): List[CreateContainerParams] = containers
+  def projectedVars(): List[Projected] = containers
     .zip(NetworkAddresses.availableIPs(network.cidr).filter(_ != network.gateway))
     .zipWithIndex
     .map { case ((c, computedIP), index) =>
-      CreateContainerParams(
+      Projected(
         id = (100 + index).refine,
         template = c.template.localPath,
         hostname = c.hostname,
@@ -103,7 +107,7 @@ final case class Description(
         volumes = volumes.filter(v => c.volumes.contains(v.name)),
         services = services.filter(s => c.services.contains(s.name)),
         dns = dns,
-        tags = List(s"template-${name}", s"name-${c.hostname}", s"version-${c.template.version}")
+        tags = Set(s"template-${name}", s"name-${c.hostname}", s"version-${c.template.version}")
       )
     }
   def mkDirs(): OsCommands =
@@ -116,7 +120,7 @@ final case class Description(
     )
 
 }
-final case class CreateContainerParams(
+final case class Projected(
     id: Int :| Positive,
     template: String,
     hostname: Hostname,
@@ -129,18 +133,18 @@ final case class CreateContainerParams(
     volumes: Set[Volume],
     services: Set[Service],
     dns: Set[IP],
-    tags: List[String]
+    tags: Set[String],
+    arch: String = "amd64",
+    ostype: String = "nixos",
+    cmode: String = "console",
+    swap: Int = 0
 ) {
-  val arch: String = "amd64"
-  val ostype: String = "nixos"
-  val cmode: String = "console"
-  val swap: Int = 0
   val net0: String = s"name=eth0,bridge=vmbr1,gw=${gateway},ip=${ip}${cidrNotation},type=veth"
   val mps: List[String] = volumes.map(v => s"${v.hostPath},mp=${v.mountPath}").toList
   def toPctCreateArgs(seed: Long): OsCommand = pctCreate(
     (List(
       id.toString(),
-      template.toString(),
+      template,
       "-arch",
       arch,
       "-ostype",

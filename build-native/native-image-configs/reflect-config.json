@@ -12,10 +12,20 @@
   "name":"[Ljava.lang.String;"
 },
 {
+  "name":"[Lmagnolia1.CaseClass$Param;"
+},
+{
+  "name":"[Lmagnolia1.SealedTrait$Subtype;"
+},
+{
   "name":"[Lscala.Tuple2;"
 },
 {
   "name":"[[Ljava.lang.Object;"
+},
+{
+  "name":"cats.Later",
+  "fields":[{"name":"value$lzy1"}]
 },
 {
   "name":"dev.carisey.pctcompose.CreateContainerParams",
@@ -30,12 +40,36 @@
   "fields":[{"name":"descriptionCodec$lzy1"}]
 },
 {
+  "name":"dev.carisey.pctcompose.Projected",
+  "fields":[{"name":"toIpTablesArgs$lzy1"}]
+},
+{
+  "name":"dev.carisey.pctcompose.projections.ParseAndEvaluate",
+  "fields":[{"name":"given_VariableEncoder_List$lzy1"}, {"name":"given_VariableEncoder_Projected$lzy1"}, {"name":"given_VariableEncoder_Projections$lzy1"}]
+},
+{
+  "name":"dev.carisey.pctcompose.projections.Projections$",
+  "fields":[{"name":"derived$VariableEncoder$lzy1"}, {"name":"given_VariableEncoder_Projected$lzy1"}]
+},
+{
+  "name":"dev.carisey.pctcompose.projections.VariableEncoder$",
+  "fields":[{"name":"given_VariableEncoder_Boolean$lzy1"}, {"name":"given_VariableEncoder_Int$lzy1"}, {"name":"given_VariableEncoder_String$lzy1"}]
+},
+{
   "name":"fansi.Category",
   "fields":[{"name":"0bitmap$2"}]
 },
 {
   "name":"fansi.Str",
   "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"fastparse.Implicits$Sequencer$",
+  "fields":[{"name":"0bitmap$1"}]
+},
+{
+  "name":"fastparse.IndexedParserInput",
+  "fields":[{"name":"0bitmap$2"}]
 },
 {
   "name":"geny.ByteData$Chunks",
@@ -58,6 +92,10 @@
 },
 {
   "name":"jdk.internal.misc.Unsafe"
+},
+{
+  "name":"magnolia1.CallByNeed",
+  "fields":[{"name":"value$lzy1"}]
 },
 {
   "name":"os.Path$",

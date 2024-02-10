@@ -23,10 +23,15 @@ import io.github.iltotore.iron.*
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import PctCompose.descriptionCodec
 import LxcTemplate.Github
+import dev.carisey.pctcompose.Assets.PathRead.read
+import dev.carisey.pctcompose.CoreTest.readContainersWithProjectionsJson
 
 object CoreTest {
   def readContainersJson(): Description = readFromStream(
     Thread.currentThread().getContextClassLoader.getResourceAsStream("containers.json")
+  )
+  def readContainersWithProjectionsJson(): Description = readFromStream(
+    Thread.currentThread().getContextClassLoader.getResourceAsStream("containersWithProjections.json")
   )
 }
 class CoreTest extends AnyFlatSpec with should.Matchers {
@@ -41,14 +46,22 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
 
   }
 
+  "Description with projections" should "project containers variables" in {
+    implicit val description: Description = readContainersWithProjectionsJson()
+
+    description.projections should contain theSameElementsAs List(
+      Projection(template = "./templates/host1config", target = "/tmp/var/lib/vz/config/host1.conf")
+    )
+  }
+
   "Description" should "generate ContainersParam" in {
     val description: Description = readContainersJson()
-    val containerParams = description.createContainerParams()
+    val containerParams = description.projectedVars()
     containerParams.map(_.ip).toSet should have size 2
     containerParams.map(_.id).toSet should have size 2
 
     containerParams should contain theSameElementsAs List(
-      CreateContainerParams(
+      Projected(
         id = 100,
         template = "/var/lib/vz/template/cache/foo.tar.xz",
         hostname = "host1",
@@ -70,9 +83,9 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
         ),
         services = Set(Service(name = "ssh1", nat = Nat(localPort = 22, remotePort = 2022))),
         dns = Set("8.8.8.8", "8.8.4.4", "1.1.1.1"),
-        tags = List("template-test_template", "name-host1", "version-file")
+        tags = Set("template-test_template", "name-host1", "version-file")
       ),
-      CreateContainerParams(
+      Projected(
         id = 101,
         template = "/var/lib/vz/template/cache/bar.tar.xz",
         hostname = "host2",
@@ -105,7 +118,7 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
           Service(name = "webhook", nat = Nat(localPort = 8080, remotePort = 8080))
         ),
         dns = Set("8.8.8.8", "8.8.4.4", "1.1.1.1"),
-        tags = List("template-test_template", "name-host2", "version-latest")
+        tags = Set("template-test_template", "name-host2", "version-latest")
       )
     )
 
@@ -113,7 +126,7 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
 
   "Description" should "generate pct create params" in {
     val description: Description = readContainersJson()
-    val pctCreateParams = description.createContainerParams().map(_.toPctCreateArgs(42))
+    val pctCreateParams = description.projectedVars().map(_.toPctCreateArgs(42))
     pctCreateParams should contain theSameElementsAs List(
       OsCommand(
         line = List(
@@ -202,7 +215,7 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
 
   "Description" should "generate iptables params" in {
     val description: Description = readContainersJson()
-    val iptablesParams = description.createContainerParams().map(_.toIpTablesArgs)
+    val iptablesParams = description.projectedVars().map(_.toIpTablesArgs)
     iptablesParams should have size 2
     iptablesParams(0) should contain theSameElementsAs List(
       OsCommand(

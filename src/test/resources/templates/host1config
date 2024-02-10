@@ -1,0 +1,6 @@
+foo:
+  - host1:
+    ipAddress: ${projections[hostname="host1"].ip}
+  - host2:
+    ipAddress: ${projections[hostname="host2"].ip}
+    dataPath: ${projections[hostname="host2"].volumes[name="data"].mountPath}

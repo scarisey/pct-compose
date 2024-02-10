@@ -88,5 +88,11 @@
         "remotePort": 8080
       }
     }
+  ],
+  "projections": [
+    {
+      "template": "./templates/host1config",
+      "target": "/tmp/var/lib/vz/config/host1.conf"
+    }
   ]
 }
