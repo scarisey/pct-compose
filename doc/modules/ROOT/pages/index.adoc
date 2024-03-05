@@ -24,25 +24,32 @@ sudo chmod a+x /usr/local/bin/pct-compose
 
 
 ```
-$ pct-compose --help
-
+$ ./pct-compose --help
 Available subcommands:
 
   parse
   Show the interpretation of the JSON descriptor.
-    -d --descriptor <path>  Descriptor in JSON format
+    -d --descriptor <path>      Descriptor in JSON format
+
+  project
+  Interpolate descriptor variables.
+    -d --descriptor <path>      Descriptor in JSON format
+    -h --hostname <str>         Update only container with given hostname
+    -s --show-variables <bool>  Show all variables
+    -r --dry-run <bool>         Print the resulting projection without writing it.
 
   update
   Update all the LXC containers described in the JSON descriptor.
-    -d --descriptor <path>  Descriptor in JSON format
-    -h --hostname <str>     Update only container with given hostname
-    -s --secret <path>      Github secret
+    -d --descriptor <path>      Descriptor in JSON format
+    -h --hostname <str>         Update only container with given hostname
+    -s --secret <path>          Github secret
 
   restoreFw
   Flush and reaaply the firewall rules computed from the JSON descriptor.
-    -d --descriptor <path>  Descriptor in JSON format
+    -d --descriptor <path>      Descriptor in JSON format
 
   status
   Show the status of LXC containers.
-    -d --descriptor <path>  Descriptor in JSON format
+    -d --descriptor <path>      Descriptor in JSON format
+
 ```

@@ -1,0 +1,136 @@
+= Projections
+
+Projections will enable you to write files with computed variables from your deployment descriptor.
+For example, you will be able to write configuration files embedding hostnames, ip addresses, volume paths, etc ...
+
+== Usage
+
+```
+$ pct-compose project -d descriptor.json
+
+  Interpolate descriptor variables.
+    -d --descriptor <path>      Descriptor in JSON format
+    -h --hostname <str>         Update only container with given hostname
+    -s --show-variables <bool>  Show all variables
+    -r --dry-run <bool>         Print the resulting projection without writing it.
+
+```
+
+== What will it do ?
+
+For a projection described as following:
+
+[source, json]
+----
+{
+  //...
+"projections": [
+  {
+    "template": "./templates/nginx/jellyfin",
+    "target": "/etc/nginx/sites-enables/jellyfin"
+  }
+]
+}
+----
+
+`pct-compose project` will write the target file, sourcing the template and substituting all the places written `${an_expression_to_evaluate}` by the result of the expression.
+
+An expression is just a path to an internal variable of pct-compose, like the IP adress, the number of cores, or whatever belonging to an LXC container description. For now, the evaluation has to be a primitive (a number, a boolean, or a string).
+
+== What are the variables ?
+
+Variables accessible from an expression can be displayed like below:
+
+```
+$ pct-compose project -d descriptor.json -s true
+
+List(
+  Projected(
+    id = 100,
+    template = "/var/lib/vz/template/cache/foo.tar.xz",
+    hostname = "host1",
+    cores = 4,
+    memory = 2048,
+    ip = "192.168.1.2",
+    cidrNotation = "/24",
+    gateway = "192.168.1.1",
+    diskSize = 8,
+    volumes = Set(
+      Volume(
+        name = "data",
+        hostPath = "/var/lib/vz/data",
+        mountPath = "/data",
+        uid = 1000,
+        gid = 1000,
+        perms = "022"
+      )
+    ),
+    services = Set(Service(name = "ssh1", nat = Nat(localPort = 22, remotePort = 2022))),
+    dns = Set("8.8.8.8", "8.8.4.4", "1.1.1.1"),
+    tags = Set("template-test_template", "name-host1", "version-file"),
+    arch = "amd64",
+    ostype = "nixos",
+    cmode = "console",
+    swap = 0
+  )
+)
+```
+
+== How to use these variables ?
+
+=== Syntax
+
+The root object is `projections`. It is a collection of objects like above.
+
+You can select an item of a collection by filtering on an attribute. If you want the item which has the attribute hostname equals to host1", you'll write:
+
+```
+${projections[hostname="host1"]}
+```
+
+From here, you can get the IP adress of the container, using the dot notation:
+
+```
+${projections[hostname="host1"]}.ip
+```
+
+There is nothing more to know about the syntax used !
+
+=== An example of projection
+
+
+../templates/someconfig
+[source, yaml]
+----
+foo:
+  - host1:
+    ipAddress: ${projections[hostname="host1"].ip}
+  - host2:
+    ipAddress: ${projections[hostname="host2"].ip}
+    dataPath: ${projections[hostname="host2"].volumes[name="data"].mountPath}
+----
+
+.containers.json
+[source, json]
+----
+{
+  //...
+"projections": [
+  {
+    "template": "./templates/someconfig",
+    "target": "/etc/an_app/someconfig"
+  }
+]
+}
+----
+
+./etc/an_app/someconfig
+[source, yaml]
+----
+foo:
+  - host1:
+    ipAddress: 192.168.1.2
+  - host2:
+    ipAddress: 192.168.1.3
+    dataPath: /data
+----

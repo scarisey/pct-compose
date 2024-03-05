@@ -88,5 +88,11 @@
         "remotePort": 8080
       }
     }
+  ],
+  "projections": [
+    {
+      "template": "./templates/nginx/jellyfin",
+      "target": "/etc/nginx/sites-enables/jellyfin"
+    }
   ]
 }

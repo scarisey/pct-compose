@@ -135,6 +135,21 @@ A container declaration have:
 ----
 ====
 
+=== Projections
+
+Please see the xref:projections.adoc[dedicated page] for a complete explanation.
+
+.example with NGINX
+[%collapsible]
+====
+"projections": [
+  {
+    "template": "./templates/nginx/jellyfin",
+    "target": "/etc/nginx/sites-enables/jellyfin"
+  }
+]
+====
+
 == Full example
 
 .Example of a descriptor file `containers.json`
