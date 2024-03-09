@@ -23,27 +23,9 @@
         "ssh1"
       ],
       "template": {
-        "type": "File",
-        "file": "/var/lib/vz/template/cache/foo.tar.xz"
-      }
-    },
-    {
-      "hostname": "host2",
-      "volumes": [
-        "data",
-        "config"
-      ],
-      "cores": 1,
-      "memory": 512,
-      "diskSize": 24,
-      "services": [
-        "ssh2",
-        "webhook"
-      ],
-      "template": {
         "type": "Github",
-        "repo": "scarisey/my-proxmox",
-        "file": "bar.tar.xz",
+        "repo": "scarisey/proxmox-example",
+        "file": "jellyfin.tar.xz",
         "tag": "latest"
       }
     }

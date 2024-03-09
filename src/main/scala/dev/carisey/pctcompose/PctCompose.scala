@@ -127,10 +127,7 @@ object PctCompose {
       }
       .tapEach { case (_, deployment) =>
         deployment.container.template match
-          case template: Github =>
-            secret.fold(println("No secret was given so downloading assets is skipped."))(
-              Assets.downloadAsset(template, _)
-            )
+          case template: Github => Assets.downloadAsset(template, secret)
           case _ => ()
       }
       .map { case (c, _) =>

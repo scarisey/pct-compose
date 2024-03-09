@@ -23,6 +23,7 @@ nativeImageOptions += s"-H:ReflectionConfigurationFiles=${baseDirectory.value / 
 nativeImageOptions += s"-H:ConfigurationFileDirectories=${baseDirectory.value / "build-native" / "native-image-configs"}"
 nativeImageOptions += "-H:+JNI"
 nativeImageOptions += "--no-fallback"
+nativeImageOptions += "--enable-url-protocols=https"
 nativeImageVersion := "21.0.1"
 nativeImageJvm := "graalvm-community"
 

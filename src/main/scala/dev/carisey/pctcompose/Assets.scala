@@ -34,13 +34,18 @@ object Assets {
 
   given releaseCodec: JsonValueCodec[GithubRelease] = JsonCodecMaker.make
 
-  def downloadAsset(template: LxcTemplate.Github, secret: os.Path)(implicit description: Description): Unit = {
-    val token = Bearer(os.read.lines(secret).head)
+  def downloadAsset(template: LxcTemplate.Github, secret: Option[os.Path])(implicit description: Description): Unit = {
+    val token = secret.map(s => Bearer(os.read.lines(s).head))
     val url = template.urlSuffix
     val file = template.file
     val localPath = template.localPath
     println(s"Get release for $file ...")
-    val res = Try(requests.get(url = s"https://api.github.com/repos/${url}", auth = token).text())
+    val res = token
+      .fold {
+        Try(requests.get(url = s"https://api.github.com/repos/${url}").text())
+      } { bearer =>
+        Try(requests.get(url = s"https://api.github.com/repos/${url}", auth = bearer).text())
+      }
       .map(readFromString[GithubRelease](_))
       .map(
         _.filter(file)
@@ -55,9 +60,15 @@ object Assets {
         case Some((localPath, release)) => {
           val tempPath = os.Path(s"${localPath}-${UUID.randomUUID().toString()}")
           println(s"Download ${release.name} into ${tempPath}")
-          requests
-            .get(url = release.url, auth = token, headers = Map("Accept" -> "application/octet-stream"))
-            .writeBytesTo(os.write.outputStream(tempPath))
+          os.write(
+            tempPath,
+            token
+              .fold {
+                requests.get.stream(url = release.url, headers = Map("Accept" -> "application/octet-stream"))
+              } { bearer =>
+                requests.get.stream(url = release.url, auth = bearer, headers = Map("Accept" -> "application/octet-stream"))
+              }
+          )
           println(s"Move ${tempPath} into ${localPath}")
           os.move.over(tempPath, os.Path(localPath.toString()))
         }
