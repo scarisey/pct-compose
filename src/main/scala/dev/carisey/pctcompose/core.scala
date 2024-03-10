@@ -35,6 +35,8 @@ type Hostname = String :|
   Match["""^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"""]
 type ServiceName = String :| LettersLowerCase
 type VolumeName = String :| LettersLowerCase
+type StorageName = String :| Match["""^[a-zA-Z0-9_\.\-]+$"""]
+type BridgeName = String :| Match["""^[a-zA-Z0-9_\.\-]+$"""]
 type Permissions = String :| Match["""^(0?[0-7]{2}|[0-7]{3})$"""]
 type Path = String :| Match["""^\/{1}.*$"""]
 type RelativePath = String :| Match["""^\..+[^\/]$"""]
@@ -69,10 +71,11 @@ final case class Container(
     cores: Cores,
     memory: Memory,
     diskSize: DiskSize,
+    storage:StorageName="local",
     services: Set[ServiceName],
     template: LxcTemplate
 )
-final case class Network(cidr: CIDR, gateway: IP) {
+final case class Network(cidr: CIDR, gateway: IP, bridge:BridgeName="vmbr0") {
   lazy val cidrNotation: String = s"/${cidr.split('/')(1)}"
 }
 final case class Projection(
@@ -103,6 +106,8 @@ final case class Description(
         ip = computedIP.refine,
         cidrNotation = network.cidrNotation,
         gateway = network.gateway,
+        bridge=network.bridge,
+        storage=c.storage,
         diskSize = c.diskSize,
         volumes = volumes.filter(v => c.volumes.contains(v.name)),
         services = services.filter(s => c.services.contains(s.name)),
@@ -129,7 +134,9 @@ final case class Projected(
     ip: IP,
     cidrNotation: String,
     gateway: IP,
+    bridge:BridgeName,
     diskSize: DiskSize,
+    storage:StorageName,
     volumes: Set[Volume],
     services: Set[Service],
     dns: Set[IP],
@@ -139,7 +146,7 @@ final case class Projected(
     cmode: String = "console",
     swap: Int = 0
 ) {
-  val net0: String = s"name=eth0,bridge=vmbr1,gw=${gateway},ip=${ip}${cidrNotation},type=veth"
+  val net0: String = s"name=eth0,bridge=${bridge},gw=${gateway},ip=${ip}${cidrNotation},type=veth"
   val mps: List[String] = volumes.map(v => s"${v.hostPath},mp=${v.mountPath}").toList
   def toPctCreateArgs(seed: Long): OsCommand = pctCreate(
     (List(
@@ -164,7 +171,7 @@ final case class Projected(
       "-net0",
       net0,
       "--rootfs",
-      s"local:${diskSize}",
+      s"${storage}:${diskSize}",
       "--features",
       "keyctl=1,nesting=1,fuse=1",
       "--tags",
@@ -182,7 +189,7 @@ final case class Projected(
           "-A",
           "PREROUTING",
           "-i",
-          "vmbr0",
+          bridge,
           "-p",
           "tcp",
           "--dport",

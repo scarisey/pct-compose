@@ -68,6 +68,7 @@ class DeploymentTest extends AnyFlatSpec with Matchers {
           cores = 4,
           memory = 2048,
           diskSize = 8,
+          storage= "local-lvm",
           services = Set("ssh1"),
           template = File(file = "/var/lib/vz/template/cache/foo.tar.xz")
         ),
@@ -100,6 +101,7 @@ class DeploymentTest extends AnyFlatSpec with Matchers {
           cores = 4,
           memory = 2048,
           diskSize = 8,
+          storage= "local-lvm",
           services = Set("ssh1"),
           template = File(file = "/var/lib/vz/template/cache/foo.tar.xz")
         )
