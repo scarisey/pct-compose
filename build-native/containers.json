@@ -1,6 +1,6 @@
 {
   "name": "test_template",
-  "templatesDir": "/var/lib/vz/template/cache",
+  "templatesDir": "/tmp/var/lib/vz/template/cache",
   "dns": [
     "8.8.8.8",
     "8.8.4.4",
@@ -8,7 +8,8 @@
   ],
   "network": {
     "cidr": "192.168.1.0/24",
-    "gateway": "192.168.1.1"
+    "gateway": "192.168.1.1",
+    "bridge": "vmbr1"
   },
   "containers": [
     {
@@ -19,6 +20,7 @@
       "cores": 4,
       "memory": 2048,
       "diskSize": 8,
+      "storage": "local-lvm",
       "services": [
         "ssh1"
       ],
@@ -27,6 +29,23 @@
         "repo": "scarisey/proxmox-example",
         "file": "jellyfin.tar.xz",
         "tag": "latest"
+      }
+    },
+    {
+      "hostname": "host2",
+      "volumes": [
+        "data"
+      ],
+      "cores": 4,
+      "memory": 2048,
+      "diskSize": 8,
+      "storage": "local-lvm",
+      "services": [
+        "ssh1"
+      ],
+      "template": {
+        "type": "File",
+        "file": "/tmp/var/lib/vz/template/cache/jellyfin.tar.xz"
       }
     }
   ],

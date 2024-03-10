@@ -79,6 +79,7 @@ object PctCompose {
         val evaluated = ParseAndEvaluate(projection.template,projections)
         val pathToFile:Path = java.nio.file.Paths.get(projection.target)
         pathToFile.toFile.getParentFile.mkdirs()
+        Files.deleteIfExists(pathToFile)
         val output = Files.createFile(pathToFile)
         Files.writeString(output,evaluated)
       }

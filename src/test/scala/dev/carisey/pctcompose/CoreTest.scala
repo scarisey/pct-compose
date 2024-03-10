@@ -70,6 +70,8 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
         ip = "192.168.1.2",
         cidrNotation = "/24",
         gateway = "192.168.1.1",
+        bridge ="vmbr1",
+        storage="local-lvm",
         diskSize = 8,
         volumes = Set(
           Volume(
@@ -94,6 +96,8 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
         ip = "192.168.1.3",
         cidrNotation = "/24",
         gateway = "192.168.1.1",
+        bridge ="vmbr1",
+        storage="local",
         diskSize = 24,
         volumes = Set(
           Volume(
@@ -153,7 +157,7 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
           "-net0",
           "name=eth0,bridge=vmbr1,gw=192.168.1.1,ip=192.168.1.2/24,type=veth",
           "--rootfs",
-          "local:8",
+          "local-lvm:8",
           "--features",
           "keyctl=1,nesting=1,fuse=1",
           "--tags",
@@ -225,7 +229,7 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
         "-A",
         "PREROUTING",
         "-i",
-        "vmbr0",
+        "vmbr1",
         "-p",
         "tcp",
         "--dport",
@@ -244,7 +248,7 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
         "-A",
         "PREROUTING",
         "-i",
-        "vmbr0",
+        "vmbr1",
         "-p",
         "tcp",
         "--dport",
@@ -261,7 +265,7 @@ class CoreTest extends AnyFlatSpec with should.Matchers {
         "-A",
         "PREROUTING",
         "-i",
-        "vmbr0",
+        "vmbr1",
         "-p",
         "tcp",
         "--dport",
