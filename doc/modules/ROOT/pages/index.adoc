@@ -16,7 +16,7 @@ So this tool should be maintained as long as I use it, and would not have too mu
 
 [source, bash]
 ----
-sudo wget -O /usr/local/bin/pct-compose https://github.com/scarisey/pct-compose/releases/download/0.5.0/pct-compose
+sudo wget -O /usr/local/bin/pct-compose https://github.com/scarisey/pct-compose/releases/download/0.5.2/pct-compose
 sudo chmod a+x /usr/local/bin/pct-compose
 ----
 

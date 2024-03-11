@@ -17,6 +17,7 @@ Default dns that will be filled by the pct command at the creation of LXC contai
 === network
 
 You should define here the network were your LXC containers will live. The IP of an LXC container is computed from this definition.
+The `bridge` field is optional, with a default value to `vmbr0`.
 
 .example
 [%collapsible]
@@ -25,7 +26,8 @@ You should define here the network were your LXC containers will live. The IP of
 ----
 {
     "cidr": "192.168.1.0/24", 
-    "gateway": "192.168.1.1"
+    "gateway": "192.168.1.1",
+    "bridge": "vmbr0"
 }
 ----
 ====
@@ -76,6 +78,7 @@ A container declaration have:
 
  * some hardware chacteristics (Cores, Ram in MB, VM disk size in GB)
  * no swap
+ * storage reference (optional, default to "local")
  * volumes references
  * services
  * an LXC template definition: 
@@ -97,6 +100,7 @@ A container declaration have:
   "cores": 1,
   "memory": 512,
   "diskSize": 24,
+  "storage":"local-lvm",
   "services": [
     "ssh2",
     "webhook"
