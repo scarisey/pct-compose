@@ -36,7 +36,7 @@ Available subcommands:
     -d --descriptor <path>      Descriptor in JSON format
     -h --hostname <str>         Update only container with given hostname
     -s --show-variables <bool>  Show all variables
-    -r --dry-run <bool>         Print the resulting projection without writing it.
+    -w --write <bool>           (Over)write the projections.
 
   update
   Update all the LXC containers described in the JSON descriptor.
