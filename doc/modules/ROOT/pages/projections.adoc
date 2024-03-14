@@ -37,6 +37,8 @@ For a projection described as following:
 
 An expression is just a path to an internal variable of pct-compose, like the IP adress, the number of cores, or whatever belonging to an LXC container description. For now, the evaluation has to be a primitive (a number, a boolean, or a string).
 
+There is a workflow description right xref:updateWorkflow.adoc[here].
+
 == What are the variables ?
 
 Variables accessible from an expression can be displayed like below:

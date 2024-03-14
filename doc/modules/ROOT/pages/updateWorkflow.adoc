@@ -4,16 +4,28 @@
 
 `pct-compose` will work on the actual node it is installed using the Proxmox's `pct` command.
 
-== Workflow
+== Workflow of the `pct-compose update` command
 
 [mermaid]
 ....
 flowchart TD
-    A[Containers deployment] --> B[Update local directories declared in Volumes]
+    A[Parse the descriptor] --> B[Update local directories declared in Volumes]
     B --> C[Flush firewall PREROUTING nat rules]
     C --> D[List deployed containers belonging to the deployment description]
     D --> E[Stop and destroy these containers]
     E --> F[Download any declared Github LXC template]
-    F --> G[Start each container]
+    F --> G[Create and start each container]
     G --> H[Declare firewall PREROUTING]
+....
+
+== Workflow of the `pct-compose project` command
+
+Please see the xref:projections.adoc[dedicated page] for a complete explanation.
+
+[mermaid]
+....
+flowchart TD
+    A[Parse the descriptor] --> B[Show variables to the user]
+    B --> C[Create missing directories referenced in target]
+    C --> D[Write or overwrite targeted files]
 ....
