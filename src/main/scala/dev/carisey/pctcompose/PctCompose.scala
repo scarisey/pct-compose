@@ -61,8 +61,8 @@ object PctCompose {
       containerHostname: Option[String],
       @arg(short = 's', name = "show-variables", doc = "Show all variables")
       showVariables: Boolean = false,
-      @arg(short = 'r', name = "dry-run", doc = "Print the resulting projection without writing it.")
-      dryRun: Boolean = false
+      @arg(short = 'w', name = "write", doc = "(Over)write the projections.")
+      overwrite: Boolean = false
   ): Unit = {
     val description: Description = readFromArray(os.read.bytes(descriptor))
     val projections = description.projectedVars().filter(p => containerHostname.forall(_ == p.hostname))
@@ -70,7 +70,7 @@ object PctCompose {
     if (showVariables) {
       pprint.pprintln(projections)
     }
-    if(dryRun) {
+    if(!overwrite) {
       pprint.pprintln(
         description.projections.map(_.template).map(file => ParseAndEvaluate(file, projections))
       )

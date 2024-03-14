@@ -2,6 +2,6 @@
 ./tracingAgent.sh parse
 ./tracingAgent.sh status
 ./tracingAgent.sh restoreFw
-./tracingAgent.sh project -s true -r true
-./tracingAgent.sh project
+./tracingAgent.sh project -s true
+./tracingAgent.sh project -w true
 ./tracingAgent.sh update
