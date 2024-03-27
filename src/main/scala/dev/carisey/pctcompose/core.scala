@@ -177,7 +177,7 @@ final case class Projected(
       "--tags",
       tags.mkString(";")
     ) ++ dns.toList.flatMap(x => List("-nameserver", x))
-      ++ mps.zipWithIndex.flatMap((arg, i) => Array(s"-mp${i}", arg))): _*
+      ++ mps.zipWithIndex.flatMap((arg, i) => Array(s"-mp${i}", arg)))*
   )
 
   lazy val toIpTablesArgs: OsCommands =

@@ -38,7 +38,7 @@ object ParseAndEvaluate {
       .map { line =>
         ParseAndEvaluate.replaceProjection.replaceAllIn(line, {
           case ParseAndEvaluate.replaceProjection(pj)=>
-            val parsed = fastparse.parse(pj, Parser.expr(_)).get.value
+            val parsed = fastparse.parse(pj, Parser.expr(using _)).get.value
             val (logs, evaluated) = ProjectedExpression.evaluate(parsed, encodedProjections).value.run
             evaluated.fold(throw IllegalStateException(logs.mkString("\n")))(x=>x.toString)
         })

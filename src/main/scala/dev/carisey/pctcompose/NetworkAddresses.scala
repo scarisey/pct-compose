@@ -17,7 +17,7 @@
 
 package dev.carisey.pctcompose
 import io.github.iltotore.iron.*
-import io.github.iltotore.iron.constraint.collection.*
+import io.github.iltotore.iron.constraint.all.*
 import scala.annotation.nowarn
 
 object NetworkAddresses {
@@ -58,16 +58,16 @@ object NetworkAddresses {
     .zip(maskBits(cidr).toInts())
     .map { case (ipPart, maskPart) => ipPart & maskPart }
 
-  def broadcastAdress(cidr: CIDR): Array[Int] = cidr
+  def broadcastAddress(cidr: CIDR): Array[Int] = cidr
     .split('/')(0)
     .split('.')
     .map(Integer.parseInt)
     .zip(inversedMaskBits(cidr).toInts())
     .map { case (ipPart, maskPart) => ipPart | maskPart }
 
-  def nextIP(ip: IP): Option[IP] = nextIP(ip.split('.').map(Integer.parseInt)).map(_.mkString(".").refine)
+  def nextIP(ip: IP): Option[IP] = _nextIP(ip.split('.').map(Integer.parseInt)).map[IP](_.mkString(".").refineUnsafe)
 
-  def nextIP(ip: Array[Int]): Option[Array[Int]] = {
+  private def _nextIP(ip: Array[Int]): Option[Array[Int]] = {
     val (next, isIt) = ip
       .foldRight((List.empty[Int], false)) {
         case (x, (acc, false)) =>
@@ -77,19 +77,19 @@ object NetworkAddresses {
     Option.when(isIt)(next.toArray)
   }
 
-  def availableIPs(cidr: CIDR): Stream[IP] = {
+  def availableIPs(cidr: CIDR): LazyList[IP] = {
     val start = NetworkAddresses.networkAddress(cidr)
-    val end = NetworkAddresses.broadcastAdress(cidr)
+    val end = NetworkAddresses.broadcastAddress(cidr)
 
-    Stream
+    LazyList
       .unfold(start) {
         case state if state.sameElements(end) => None
         case state =>
-          nextIP(state).flatMap { next =>
+          _nextIP(state).flatMap { next =>
             Option.when(!next.sameElements(end))((next, next))
           }
       }
-      .map(_.mkString(".").refine)
+      .map[IP](_.mkString(".").refineUnsafe)
   }
 
 }

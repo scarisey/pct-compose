@@ -28,14 +28,14 @@ class ParserTest extends AnyFlatSpec with Matchers {
   behavior of "parser"
 
   it should "parse a simple expressions" in {
-    parse("\"foo\"", Parser.string(_)) shouldEqual Success(value = AString(value = "foo"), index = 5)
+    parse("\"foo\"", Parser.string(using _)) shouldEqual Success(value = AString(value = "foo"), index = 5)
 
-    parse("aSingleField", Parser.expr(_)) shouldEqual Success(value = AFieldValue(name = "aSingleField"), index = 12)
-    parse("anObject.aField", Parser.expr(_)) shouldEqual Success(
+    parse("aSingleField", Parser.expr(using _)) shouldEqual Success(value = AFieldValue(name = "aSingleField"), index = 12)
+    parse("anObject.aField", Parser.expr(using _)) shouldEqual Success(
       value = FieldPath(name = "anObject", next = AFieldValue(name = "aField")),
       index = 15
     )
-    parse("anArray[name=\"foo\"]", Parser.expr(_)) shouldEqual
+    parse("anArray[name=\"foo\"]", Parser.expr(using _)) shouldEqual
       Success(
         value = FilterArrayValue(
           name = "anArray",
@@ -44,7 +44,7 @@ class ParserTest extends AnyFlatSpec with Matchers {
         ),
         index = 19
       )
-    parse("anArray[isRightHanded=true]", Parser.expr(_)) shouldEqual
+    parse("anArray[isRightHanded=true]", Parser.expr(using _)) shouldEqual
       Success(
         value = FilterArrayValue(
           name = "anArray",
@@ -53,7 +53,7 @@ class ParserTest extends AnyFlatSpec with Matchers {
         ),
         index = 27
       )
-    parse("anArray[age=42]", Parser.expr(_)) shouldEqual
+    parse("anArray[age=42]", Parser.expr(using _)) shouldEqual
       Success(
         value = FilterArrayValue(
           name = "anArray",
@@ -63,7 +63,7 @@ class ParserTest extends AnyFlatSpec with Matchers {
         index = 15
       )
 
-    parse("anArray[weight=7.5E1]", Parser.expr(_)) shouldEqual
+    parse("anArray[weight=7.5E1]", Parser.expr(using _)) shouldEqual
       Success(
         value = FilterArrayValue(
           name = "anArray",
@@ -72,7 +72,7 @@ class ParserTest extends AnyFlatSpec with Matchers {
         ),
         index = 21
       )
-    parse("anObject.anArray[name=\"foo\"].aField", Parser.expr(_)) shouldEqual
+    parse("anObject.anArray[name=\"foo\"].aField", Parser.expr(using _)) shouldEqual
       Success(
         value = FieldPath(
           name = "anObject",
