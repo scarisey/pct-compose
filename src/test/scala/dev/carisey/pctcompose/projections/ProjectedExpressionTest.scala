@@ -80,7 +80,7 @@ class ProjectedExpressionTest extends AnyFlatSpec with Matchers {
           )
       )
     )
-    val parsed = parse("""foo[name="foo2"].age""", Parser.expr(_)).get.value
+    val parsed = parse("""foo[name="foo2"].age""", Parser.expr(using _)).get.value
     ProjectedExpression.evaluate(parsed, variables).safe() shouldEqual Some(36)
   }
 }
