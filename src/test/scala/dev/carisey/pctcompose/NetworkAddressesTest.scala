@@ -52,7 +52,7 @@ class NetworkAddressesTest extends AnyFlatSpec with Matchers {
   }
 
   "broadcastAddress" should "give an array int IP of broadcast" in {
-    broadcastAdress("192.168.1.1/19".refine) shouldBe Array(192, 168, 31, 255)
+    broadcastAddress("192.168.1.1/19".refine) shouldBe Array(192, 168, 31, 255)
   }
 
   "nextIp" should "give always give a valid IP" in {
