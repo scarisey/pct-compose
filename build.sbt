@@ -13,7 +13,7 @@ scmInfo := Some(
   )
 )
 
-scalaVersion := "3.4.0"
+scalaVersion := "3.4.2"
 testFrameworks += new TestFramework("org.scalatest.tools.Framework")
 enablePlugins(NativeImagePlugin)
 
