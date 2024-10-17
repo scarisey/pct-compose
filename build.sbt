@@ -31,11 +31,11 @@ assemblyPrependShellScript := Some(defaultShellScript)
 assembly / assemblyJarName := "pct-compose"
 
 libraryDependencies ++= Seq(
-  "com.lihaoyi" %% "mainargs" % "0.7.2",
-  "com.lihaoyi" %% "os-lib" % "0.10.5",
+  "com.lihaoyi" %% "mainargs" % "0.7.6",
+  "com.lihaoyi" %% "os-lib" % "0.11.2",
   "com.lihaoyi" %% "pprint" % "0.9.0",
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.30.9",
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.30.9",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.31.0",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.31.0",
   "io.github.iltotore" %% "iron" % "2.6.0",
   "io.github.iltotore" %% "iron-jsoniter" % "2.6.0",
   "com.lihaoyi" %% "requests" % "0.9.0",
@@ -45,12 +45,12 @@ libraryDependencies ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.19" % Test,
-  "org.scalacheck" %% "scalacheck" % "1.18.0" % Test,
-  "com.lihaoyi" %% "mainargs" % "0.7.2" % Test,
-  "com.lihaoyi" %% "os-lib" % "0.10.5" % Test,
+  "org.scalacheck" %% "scalacheck" % "1.18.1" % Test,
+  "com.lihaoyi" %% "mainargs" % "0.7.6" % Test,
+  "com.lihaoyi" %% "os-lib" % "0.11.2" % Test,
   "com.lihaoyi" %% "pprint" % "0.9.0" % Test,
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.30.9" % Test,
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.30.9" % Test,
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.31.0" % Test,
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.31.0" % Test,
   "io.github.iltotore" %% "iron" % "2.6.0" % Test,
   "io.github.iltotore" %% "iron-scalacheck" % "2.6.0" % Test,
   "io.github.iltotore" %% "iron-jsoniter" % "2.6.0" % Test,
