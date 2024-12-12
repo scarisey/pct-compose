@@ -34,13 +34,13 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %% "mainargs" % "0.7.6",
   "com.lihaoyi" %% "os-lib" % "0.11.3",
   "com.lihaoyi" %% "pprint" % "0.9.0",
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.31.1",
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.31.1",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.32.0",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.32.0",
   "io.github.iltotore" %% "iron" % "2.6.0",
   "io.github.iltotore" %% "iron-jsoniter" % "2.6.0",
   "com.lihaoyi" %% "requests" % "0.9.0",
   "com.lihaoyi" %% "fastparse" % "3.1.1",
-  "com.softwaremill.magnolia1_3" %% "magnolia" % "1.3.7"
+  "com.softwaremill.magnolia1_3" %% "magnolia" % "1.3.8"
 ) ++ List("cats-core", "cats-kernel").map(dep => "org.typelevel" %% dep % "2.10.0")
 
 libraryDependencies ++= Seq(
@@ -49,8 +49,8 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %% "mainargs" % "0.7.6" % Test,
   "com.lihaoyi" %% "os-lib" % "0.11.3" % Test,
   "com.lihaoyi" %% "pprint" % "0.9.0" % Test,
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.31.1" % Test,
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.31.1" % Test,
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.32.0" % Test,
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.32.0" % Test,
   "io.github.iltotore" %% "iron" % "2.6.0" % Test,
   "io.github.iltotore" %% "iron-scalacheck" % "2.6.0" % Test,
   "io.github.iltotore" %% "iron-jsoniter" % "2.6.0" % Test,
