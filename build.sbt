@@ -13,7 +13,7 @@ scmInfo := Some(
   )
 )
 
-scalaVersion := "3.6.1"
+scalaVersion := "3.7.1"
 testFrameworks += new TestFramework("org.scalatest.tools.Framework")
 enablePlugins(NativeImagePlugin)
 
@@ -32,27 +32,27 @@ assembly / assemblyJarName := "pct-compose"
 
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "mainargs" % "0.7.6",
-  "com.lihaoyi" %% "os-lib" % "0.11.3",
+  "com.lihaoyi" %% "os-lib" % "0.11.4",
   "com.lihaoyi" %% "pprint" % "0.9.0",
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.31.1",
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.31.1",
-  "io.github.iltotore" %% "iron" % "2.6.0",
-  "io.github.iltotore" %% "iron-jsoniter" % "2.6.0",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.36.5",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.36.5",
+  "io.github.iltotore" %% "iron" % "3.0.2",
+  "io.github.iltotore" %% "iron-jsoniter" % "3.0.2",
   "com.lihaoyi" %% "requests" % "0.9.0",
   "com.lihaoyi" %% "fastparse" % "3.1.1",
-  "com.softwaremill.magnolia1_3" %% "magnolia" % "1.3.7"
+  "com.softwaremill.magnolia1_3" %% "magnolia" % "1.3.18"
 ) ++ List("cats-core", "cats-kernel").map(dep => "org.typelevel" %% dep % "2.10.0")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.19" % Test,
   "org.scalacheck" %% "scalacheck" % "1.18.1" % Test,
   "com.lihaoyi" %% "mainargs" % "0.7.6" % Test,
-  "com.lihaoyi" %% "os-lib" % "0.11.3" % Test,
+  "com.lihaoyi" %% "os-lib" % "0.11.4" % Test,
   "com.lihaoyi" %% "pprint" % "0.9.0" % Test,
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.31.1" % Test,
-  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.31.1" % Test,
-  "io.github.iltotore" %% "iron" % "2.6.0" % Test,
-  "io.github.iltotore" %% "iron-scalacheck" % "2.6.0" % Test,
-  "io.github.iltotore" %% "iron-jsoniter" % "2.6.0" % Test,
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core" % "2.36.5" % Test,
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.36.5" % Test,
+  "io.github.iltotore" %% "iron" % "3.0.2" % Test,
+  "io.github.iltotore" %% "iron-scalacheck" % "3.0.2" % Test,
+  "io.github.iltotore" %% "iron-jsoniter" % "3.0.2" % Test,
   "com.lihaoyi" %% "requests" % "0.9.0" % Test
 )
